@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import * as d3 from "d3";
 import { useQuery } from "react-query";
-import Axis from "./components/Axis";
-import Line from './components/Line'
+import Axis from "../components/Axis";
+import Line from '../components/Line'
 
 const getData = async () => {
   return d3.json("/data/my_weather_data.json");

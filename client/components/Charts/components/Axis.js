@@ -30,6 +30,7 @@ export default function Axis({
   scale,
   options: parentOptions,
   style: parentStyle,
+  children
 }) {
   const defaultOptions = {
     tickArguments: [],
@@ -171,6 +172,7 @@ export default function Axis({
           )}
         </g>
       ))}
+      {children}
     </g>
   );
 }

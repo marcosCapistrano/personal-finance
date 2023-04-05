@@ -75,8 +75,9 @@ export default function Chart({ transactions }) {
         .attr("stroke", "#af9358")
         .attr("stroke-width", 2);
 
-      const yAxisGenerator = d3.axisLeft(yScale);
+      const yAxisGenerator = d3.axisLeft(yScale).ticks(4);
       const yAxis = bounds.append("g").call(yAxisGenerator);
+
 
       const xAxisGenerator = d3.axisBottom().scale(xScale);
       const xAxis = bounds

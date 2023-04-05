@@ -1,7 +1,0 @@
-.transactions {
-    height: 413px; /*REMOVE LATER*/
-    overflow-y: hidden;
-    display: flex;
-    flex-direction: column;
-    gap: .75em;
-}

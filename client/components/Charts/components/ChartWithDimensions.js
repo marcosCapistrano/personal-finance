@@ -24,7 +24,7 @@ export default function ChartWithDimensions({ parentRef, margin = {top:0, right:
   };
 
   return (
-    <svg width={dimensions.width} height={dimensions.height}>
+    <svg width={dimensions.width} height={dimensions.height} style={{position: "relative"}}>
       <g
         style={{transform: `translate(${margin.left}px, ${margin.top}px)`}}
       >
