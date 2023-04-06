@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+var DB *gorm.DB
 
 func Connect() (*gorm.DB, error) {
 	var err error
@@ -21,7 +21,7 @@ func Connect() (*gorm.DB, error) {
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Africa/Lagos", host, username, password, databaseName, port)
 	fmt.Println("dsn %s", dsn)
-	db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "database: unable to connect to database: %v\n", err)
 		return nil, err
@@ -29,5 +29,5 @@ func Connect() (*gorm.DB, error) {
 
 	fmt.Println("database: connected to database!")
 
-	return db, nil
+	return DB, nil
 }

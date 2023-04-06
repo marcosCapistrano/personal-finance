@@ -1,6 +1,9 @@
 package server
 
 import (
+	"server/controller"
+	"server/middleware"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -10,6 +13,15 @@ func Start() {
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"*"}
 	router.Use(cors.New(config))
+
+	publicRoutes := router.Group("/public")
+	publicRoutes.POST("/register", controller.Register)
+	publicRoutes.POST("/login", controller.Login)
+
+	protectedRoutes := router.Group("/api")
+	protectedRoutes.Use(middleware.JWTAuthMiddleware())
+	protectedRoutes.POST("/accounts", controller.AddAccount)
+	protectedRoutes.GET("/accounts", controller.GetAllAccounts)
 
 	// router.GET("/transactions", server.getAllNormalTransactions)
 	// router.GET("/fixed", server.getAllFixedTransactions)
@@ -22,7 +34,7 @@ func Start() {
 	// router.GET("/accounts", server.getAccounts)
 	// router.POST("/accounts", server.postAccount)
 
-	router.GET("/balances", server.getBalances)
+	// router.GET("/balances", server.getBalances)
 
 	// router.POST("/transactions", server.postTransaction)
 	// router.GET("/transactions", server.getTransactions)

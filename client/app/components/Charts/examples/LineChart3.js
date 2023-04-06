@@ -9,6 +9,7 @@ import ChartContainer from "../components/ChartContainer";
 const dateParser = d3.timeParse("%Y-%m-%dT%H:%M:%SZ");
 const xAccessor = (d) => dateParser(d.date);
 const yAccessor = (d) => d.value;
+const colorAccessor = (d) => d.value;
 
 export default function Chart({ container, data }) {
   if (!container || !data) return "null";
@@ -34,6 +35,8 @@ export default function Chart({ container, data }) {
     .scaleTime()
     .domain(d3.extent(data, xAccessor))
     .range([0, bounds.width]);
+
+  const colorScale = d3.scaleLinear().domain(d3.extent(data, colorAccessor)).range(['red', 'green'])
 
   const lineGenerator = d3
     .line()
