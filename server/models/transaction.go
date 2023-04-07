@@ -1,6 +1,7 @@
 package models
 
 import (
+	"server/database"
 	"server/types"
 	"time"
 
@@ -14,4 +15,12 @@ type Transaction struct {
 	Value       float32               `gorm:"column:value;not null;" json:"value"`
 	Description string                `gorm:"column:description;size:50;not null;" json:"description"`
 	AccountID   uuid.UUID             `gorm:"type:uuid;column:account_id;" json:"account_id"`
+}
+
+func (trans *Transaction) Save() (*Transaction, error) {
+	err := database.DB.Create(&trans).Error
+	if err != nil {
+		return &Transaction{}, err
+	}
+	return trans, nil
 }

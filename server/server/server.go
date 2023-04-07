@@ -20,6 +20,7 @@ func Start() {
 
 	protectedRoutes := router.Group("/api")
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
+	protectedRoutes.GET("/institutions", controller.GetAllInstitutions)
 	protectedRoutes.POST("/accounts", controller.AddAccount)
 	protectedRoutes.GET("/accounts", controller.GetAllAccounts)
 
