@@ -1,27 +1,26 @@
 package database
 
 import (
+	"context"
 	"fmt"
 	"os"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-var DB *gorm.DB
+var DB *pgxpool.Pool
 
-func Connect() (*gorm.DB, error) {
-	var err error
-
+func Connect() (*pgxpool.Pool, error) {
 	host := os.Getenv("DB_HOST")
 	username := os.Getenv("DB_USER")
 	password := os.Getenv("DB_PASSWORD")
 	databaseName := os.Getenv("DB_NAME")
 	port := os.Getenv("DB_PORT")
 
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Africa/Lagos", host, username, password, databaseName, port)
-	fmt.Println("dsn %s", dsn)
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	dsn := fmt.Sprintf("postgresql://%s:%s@%s:%s/%s", username, password, host, port, databaseName)
+	fmt.Printf("dsn %s", dsn)
+
+	DB, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "database: unable to connect to database: %v\n", err)
 		return nil, err
@@ -30,4 +29,8 @@ func Connect() (*gorm.DB, error) {
 	fmt.Println("database: connected to database!")
 
 	return DB, nil
+}
+
+func Close() {
+	DB.Close()
 }

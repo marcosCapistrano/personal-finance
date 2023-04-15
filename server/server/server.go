@@ -6,23 +6,53 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Start() {
+type Server struct {
+	auth         *controller.AuthController
+	accounts     *controller.AccountController
+	institutions *controller.InstitutionController
+	transactions *controller.TransactionController
+	balances     *controller.BalanceController
+}
+
+func New(db *pgxpool.Pool) *Server {
+
+	return &Server{
+		auth:         controller.NewAuthController(db),
+		institutions: controller.NewInstitutionController(db),
+		accounts:     controller.NewAccountController(db),
+		transactions: controller.NewTransactionController(db),
+		balances:     controller.NewBalanceController(db),
+	}
+}
+
+func (server *Server) Start() {
 	router := gin.Default()
 	config := cors.DefaultConfig()
 	config.AllowOrigins = []string{"*"}
 	router.Use(cors.New(config))
 
+	auth := server.auth
+	institutions := server.institutions
+	accounts := server.accounts
+	transactions := server.transactions
+	balances := server.balances
+
 	publicRoutes := router.Group("/public")
-	publicRoutes.POST("/register", controller.Register)
-	publicRoutes.POST("/login", controller.Login)
+	publicRoutes.POST("/register", auth.Register)
+	publicRoutes.POST("/login", auth.Login)
 
 	protectedRoutes := router.Group("/api")
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
-	protectedRoutes.GET("/institutions", controller.GetAllInstitutions)
-	protectedRoutes.POST("/accounts", controller.AddAccount)
-	protectedRoutes.GET("/accounts", controller.GetAllAccounts)
+	// protectedRoutes.GET("/institutions", controller.GetAllInstitutions)
+	protectedRoutes.POST("/institutions", institutions.AddInstitution)
+	protectedRoutes.POST("/accounts", accounts.AddAccount)
+	protectedRoutes.GET("/accounts", accounts.GetAllAccounts)
+	protectedRoutes.POST("/transactions", transactions.AddTransaction)
+	protectedRoutes.GET("/transactions", transactions.GetAllTransactions)
+	protectedRoutes.GET("/balances", balances.GetAllBalances)
 
 	// router.GET("/transactions", server.getAllNormalTransactions)
 	// router.GET("/fixed", server.getAllFixedTransactions)

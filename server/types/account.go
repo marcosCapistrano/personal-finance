@@ -2,19 +2,19 @@ package types
 
 import "database/sql/driver"
 
-type AccountType string
+type Account string
 
 const (
-	INCOME  AccountType = "INCOME"
-	EXPENSE AccountType = "EXPENSE"
+	CREDIT Account = "CREDIT"
+	DEBIT  Account = "DEBIT"
 )
 
-func (at *AccountType) Scan(value interface{}) error {
-	*at = AccountType(value.([]byte))
+func (at *Account) Scan(value interface{}) error {
+	*at = Account(value.(string))
 
 	return nil
 }
 
-func (at AccountType) Value() (driver.Value, error) {
+func (at Account) Value() (driver.Value, error) {
 	return string(at), nil
 }

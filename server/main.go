@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"server/database"
-	"server/models"
 	"server/server"
 
 	"github.com/joho/godotenv"
@@ -20,11 +19,6 @@ func main() {
 		log.Fatalf("error connecting to db: %v", err)
 	}
 
-	db.AutoMigrate(&models.User{})
-	db.AutoMigrate(&models.Institution{})
-	db.AutoMigrate(&models.Account{})
-	db.AutoMigrate(&models.Balance{})
-	db.AutoMigrate(&models.Transaction{})
-
+	server := server.New(db)
 	server.Start()
 }

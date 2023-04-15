@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 const LoginForm = () => {
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
@@ -23,12 +23,12 @@ const LoginForm = () => {
     <>
     <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="name">Nome:</label>
         <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={handleEmailChange}
+          type="text"
+          id="name"
+          value={username}
+          onChange={handleUsernameChange}
         />
       </div>
       <div>

@@ -4,7 +4,7 @@ import Accounts from '@/components/Accounts/Accounts';
 import TransactionHistory from "@/components/TransactionHistory/TransactionHistory";
 
 async function getBalances() {
-  const res = await fetch("http://127.0.0.1:8080/balances");
+  const res = await fetch("http://127.0.0.1:8080/api/balances");
 
   if(!res.ok) {
     throw new Error("Failed to fetch balances");
@@ -14,7 +14,7 @@ async function getBalances() {
 }
 
 async function getTransactions() {
-  const res = await fetch("http://127.0.0.1:8080/transactions");
+  const res = await fetch("http://127.0.0.1:8080/api/transactions");
 
   if(!res.ok) {
     throw new Error("Failed to fetch transactions");

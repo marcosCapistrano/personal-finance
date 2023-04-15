@@ -2,19 +2,19 @@ package types
 
 import "database/sql/driver"
 
-type TransactionType string
+type Transaction string
 
 const (
-	CREDIT TransactionType = "CREDIT"
-	DEBIT  TransactionType = "DEBIT"
+	INCOME  Transaction = "INCOME"
+	EXPENSE Transaction = "EXPENSE"
 )
 
-func (tt *TransactionType) Scan(value interface{}) error {
-	*tt = TransactionType(value.([]byte))
+func (tt *Transaction) Scan(value interface{}) error {
+	*tt = Transaction(value.(string))
 
 	return nil
 }
 
-func (tt TransactionType) Value() (driver.Value, error) {
+func (tt Transaction) Value() (driver.Value, error) {
 	return string(tt), nil
 }

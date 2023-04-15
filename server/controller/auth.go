@@ -6,10 +6,19 @@ import (
 	"server/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
-func Register(context *gin.Context) {
-	var input models.AuthenticationInput
+type AuthController struct {
+	db *pgxpool.Pool
+}
+
+func NewAuthController(db *pgxpool.Pool) *AuthController {
+	return &AuthController{db}
+}
+
+func (ctrl *AuthController) Register(context *gin.Context) {
+	var input models.User
 
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -18,10 +27,11 @@ func Register(context *gin.Context) {
 
 	user := models.User{
 		Name:     input.Name,
+		Email:    input.Email,
 		Password: input.Password,
 	}
 
-	savedUser, err := user.Save()
+	savedUser, err := user.Save(ctrl.db)
 
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -31,7 +41,7 @@ func Register(context *gin.Context) {
 	context.JSON(http.StatusCreated, gin.H{"user": savedUser})
 }
 
-func Login(context *gin.Context) {
+func (ctrl *AuthController) Login(context *gin.Context) {
 	var input models.AuthenticationInput
 
 	if err := context.ShouldBindJSON(&input); err != nil {
@@ -39,15 +49,13 @@ func Login(context *gin.Context) {
 		return
 	}
 
-	user, err := models.FindUserByUsername(input.Name)
-
+	user, err := models.FindUserByUsername(input.Name, ctrl.db)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
 	err = user.ValidatePassword(input.Password)
-
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

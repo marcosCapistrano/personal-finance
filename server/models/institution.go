@@ -1,25 +1,25 @@
 package models
 
-import "server/database"
+import (
+	"context"
+
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
+)
 
 type Institution struct {
 	Base
-	Name string `gorm:"column:name;size:25;not null;" json:"name"`
+	ID   string `json:"institution_id" db:"institution_id"`
+	Name string `json:"name"`
 }
 
-func (ins *Institution) Save() (*Institution, error) {
-	err := database.DB.Create(&ins).Error
+func (model *Institution) Save(db *pgxpool.Pool) (*Institution, error) {
+	row, err := db.Query(context.Background(), "INSERT INTO institutions(name) VALUES($1) RETURNING *", model.Name)
 	if err != nil {
 		return &Institution{}, err
 	}
-	return ins, nil
-}
 
-func FindInstitutions() ([]Institution, error) {
-	var institutions []Institution
-	err := database.DB.Find(&institutions).Error
-	if err != nil {
-		return []Institution{}, err
-	}
-	return institutions, nil
+	savedInstitution, err := pgx.CollectOneRow(row, pgx.RowToStructByName[Institution])
+
+	return &savedInstitution, err
 }

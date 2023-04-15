@@ -1,23 +1,46 @@
 package models
 
 import (
-	"server/database"
+	"context"
 	"time"
 
-	"github.com/gofrs/uuid"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 )
 
 type Balance struct {
 	Base
-	Date      time.Time `gorm:"column:date;not null;" json:"date"`
-	Value     float32   `gorm:"column:value;not null;" json:"value"`
-	AccountID uuid.UUID `gorm:"type:uuid;column:account_id;" json:"account_id"`
+	ID        string    `json:"balance_id" db:"balance_id"`
+	Date      time.Time `json:"date"`
+	Value     float32   `json:"value"`
+	AccountID string    `json:"account_id"`
 }
 
-func (bal *Balance) Save() (*Balance, error) {
-	err := database.DB.Create(&bal).Error
+type BalanceByAccount struct {
+	ID        string    `json:"balance_id" db:"balance_id"`
+	Date      time.Time `json:"date" db:"date"`
+	Value     float32   `json:"value" db:"value"`
+	AccountID string    `json:"account_id" db:"account_id"`
+}
+
+const balanceByUserQuery = `
+SELECT b.balance_id, b.date, b.value, b.account_id 
+	FROM balances b
+	JOIN accounts a ON b.account_id = a.account_id
+	JOIN users u ON a.user_id = u.user_id
+	WHERE u.user_id = $1;
+`
+
+func FindBalancesByUser(user *User, db *pgxpool.Pool) ([]BalanceByAccount, error) {
+	rows, err := db.Query(context.Background(), balanceByUserQuery, user.ID)
 	if err != nil {
-		return &Balance{}, err
+		return []BalanceByAccount{}, err
 	}
-	return bal, nil
+
+	balances, err := pgx.CollectRows(rows, pgx.RowToStructByName[BalanceByAccount])
+	if err != nil {
+		return []BalanceByAccount{}, err
+	}
+
+	return balances, nil
 }
