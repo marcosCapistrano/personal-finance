@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.0.3",
+    "@radix-ui/react-form": "^0.0.2",
     "@radix-ui/react-tabs": "^1.0.3",
     "@radix-ui/react-visually-hidden": "^1.0.2",
     "@types/node": "18.15.11",

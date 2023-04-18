@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import Button from "../Button";
 
 interface ModalProps {
   isOpen?: boolean;
@@ -16,7 +17,7 @@ interface ModalProps {
   actionLabel: string;
   disabled?: boolean;
   secondaryAction?: () => void;
-  secondaryLabel?: string;
+  secondaryActionLabel?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -31,7 +32,7 @@ const Modal: React.FC<ModalProps> = ({
   actionLabel,
   disabled,
   secondaryAction,
-  secondaryLabel,
+  secondaryActionLabel,
 }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -63,7 +64,7 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <Dialog.Root open={isOpen}>
+    <Dialog.Root open={showModal} modal>
       <Dialog.Trigger />
       <Dialog.Portal>
         <Dialog.Overlay
@@ -71,52 +72,34 @@ const Modal: React.FC<ModalProps> = ({
         bg-neutral-800/70
         fixed
         inset-0
+        animate-overlayShow
         "
         />
         <Dialog.Content
           aria-describedby={description}
           className={`
         fixed
-        top-1/3
+        top-1/2
         left-1/2
         z-50
         -translate-x-1/2
-        -translate-y-1/3
-        w-full
-        md:w-4/6
-        lg:w-3/6
-        xl:w-2/5
+        -translate-y-1/2
         p-6
+        animate-contentShow
         bg-white
-        translate
-        duration-600
-        ${showModal ? "translate-y-0" : "translate-y-full"}
-        ${showModal ? "opacity-100" : "opacity-0"}
+        rounded-md
         `}
         >
-          <div
-            className="
-            flex
-            items-center
-            rounded-t
-            justify-end
-            relative border-b-[1px]
-            h-10
-            "
+          <Dialog.Close
+            className="rounded-full h-5 w-5 inline-flex items-center justify-center absolute top-6 right-5"
+            onClick={() => {
+              console.log("Close!");
+              setShowModal(false);
+            }}
           >
-            <button
-              onClick={handleClose}
-              className="
-                border-0
-                hover:opacity-70
-                transition
-                absolute
-                right-1
-                top-1"
-            >
-                <IoMdClose size={18} />
-            </button>
-          </div>
+            <IoMdClose size={18} />
+          </Dialog.Close>
+
           {showTitle ? (
             <Dialog.Title className="margin-0 font-medium text-slate-950 leading-normal">
               {title}
@@ -133,7 +116,25 @@ const Modal: React.FC<ModalProps> = ({
             </Dialog.Description>
           )}
 
-          <Dialog.Close></Dialog.Close>
+          {body}
+
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row items-center gap-4 w-full">
+              {secondaryAction && secondaryActionLabel && (
+                <Button
+                  outline
+                  disabled={disabled}
+                  label={secondaryActionLabel}
+                  onClick={handleSecondaryAction}
+                />
+              )}
+              <Button
+                disabled={disabled}
+                label={actionLabel}
+                onClick={handleSubmit}
+              />
+            </div>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

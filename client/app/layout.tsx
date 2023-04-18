@@ -23,7 +23,7 @@ export default function RootLayout({
       <body className={classnames("bg-slate-100", font.className)}>
         <Container>
           <ClientOnly>
-            <Modal isOpen title="Entrar" showTitle description="Entre com seus detalhes ai"/>
+            <Modal isOpen title="Entrar" showTitle description="Entre com seus detalhes aieeeeeeeeeeeeeeeeeeeeee"/>
             <Navbar />
           </ClientOnly>
           {children}
