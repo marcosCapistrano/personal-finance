@@ -5,6 +5,7 @@ import Navbar from "@/app/components/navbar/Navbar";
 import classnames from 'classnames';
 import {Poppins} from 'next/font/google'
 import "./globals.css";
+import ToasterProvider from "./providers/ToasterProvider";
 
 export const metadata = {
   title: "Create Next App",
@@ -23,7 +24,8 @@ export default function RootLayout({
       <body className={classnames("bg-slate-100", font.className)}>
         <Container>
           <ClientOnly>
-            <Modal isOpen title="Entrar" showTitle description="Entre com seus detalhes aieeeeeeeeeeeeeeeeeeeeee"/>
+            <ToasterProvider />
+            {/* <Modal isOpen title="Entrar" showTitle description="Entre com seus detalhes aieeeeeeeeeeeeeeeeeeeeee"/> */}
             <Navbar />
           </ClientOnly>
           {children}

@@ -3,6 +3,9 @@ import * as Tabs from "@radix-ui/react-tabs";
 import axios from "axios";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
+import Button from "../Button";
+import {FcGoogle} from 'react-icons/fc'
+import {AiFillGithub} from 'react-icons/ai'
 
 const Auth = () => {
   return (
@@ -35,6 +38,21 @@ const Auth = () => {
           Please enter your email and password
         </p>
         <LoginForm />
+        <div className="flex flex-col gap-4 mt-3">
+          <hr />
+          <Button
+            outline
+            label="Continue with Google"
+            icon={FcGoogle}
+            onClick={() => {}}
+            />
+          <Button
+            outline
+            label="Continue with Github"
+            icon={AiFillGithub}
+            onClick={() => {}}
+            />
+        </div>
       </Tabs.Content>
       <Tabs.Content
         className="bg-white p-4 flex-grow rounded-bl-md rounded-br-md outline-none"
@@ -44,6 +62,21 @@ const Auth = () => {
           Please enter your name, email and password.
         </p>
         <RegisterForm />
+        <div className="flex flex-col gap-4 mt-3">
+          <hr />
+          <Button
+            outline
+            label="Continue with Google"
+            icon={FcGoogle}
+            onClick={() => {}}
+            />
+          <Button
+            outline
+            label="Continue with Github"
+            icon={AiFillGithub}
+            onClick={() => {}}
+            />
+        </div>
       </Tabs.Content>
     </Tabs.Root>
   );

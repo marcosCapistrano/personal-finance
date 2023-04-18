@@ -1,6 +1,11 @@
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import * as Form from "@radix-ui/react-form";
 import axios from "axios";
+import Button from "../Button";
+import Label from "../forms/Label";
+import Input from "../forms/Input";
+import { toast } from "react-hot-toast";
 
 const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,12 +26,12 @@ const LoginForm = () => {
     setIsLoading(true);
 
     axios
-      .post("/login", data)
+      .post("/loading", data)
       .then(() => {
-        console.log(data)
+        toast.loading("loading")
       })
       .catch((error) => {
-        console.log(error);
+        toast.error("Something went wrong")
       })
       .finally(() => {
         setIsLoading(false);
@@ -34,41 +39,29 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <fieldset className="mb-4 w-full flex flex-col justify-start">
-        <label className="text-xs leading-none mb-2 block" htmlFor="email">
-          Email
-        </label>
-        <input
-          className="flex-[1_0_auto] rounded-sm px-2 py-1 leading-none h-8 focus:shadow-md shadow-slate-400 shadow-inner "
+    <form>
+      <div className="mb-4 w-full flex flex-col justify-start">
+        <Input 
           id="email"
-          type="email"
+          label="Email"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
         />
-      </fieldset>
-      <fieldset className="mb-4 w-full flex flex-col justify-start">
-        <label className="text-xs leading-none mb-2 block" htmlFor="password">
-          Password
-        </label>
-        <input
-          className="flex-[1_0_auto] rounded-sm px-2 py-1 leading-none h-8 focus:shadow-md shadow-slate-400 shadow-inner "
-          id="password"
-          type="password"
-        />
-      </fieldset>
-      <div
-        style={{
-          display: "flex",
-          marginTop: 20,
-          justifyContent: "flex-end",
-        }}
-      >
-        <button
-          type="submit"
-          className="mx-auto w-36 bg-[#fc4c69] p-4 text-white font-semibold rounded-md"
-        >
-          Login
-        </button>
       </div>
+      <div className="mb-4 w-full flex flex-col justify-start">
+        <Input 
+          id="password"
+          label="Password"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+        />
+      </div>
+
+      <Button label="Login" onClick={handleSubmit(onSubmit)}/>
     </form>
   );
 };
