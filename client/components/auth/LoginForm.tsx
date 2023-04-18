@@ -1,3 +1,4 @@
+import {signIn} from 'next-auth/react';
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
@@ -6,8 +7,10 @@ import Button from "../Button";
 import Label from "../forms/Label";
 import Input from "../forms/Input";
 import { toast } from "react-hot-toast";
+import { redirect, useRouter } from 'next/navigation';
 
 const LoginForm = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const {
@@ -25,17 +28,22 @@ const LoginForm = () => {
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
 
-    axios
-      .post("/loading", data)
-      .then(() => {
-        toast.loading("loading")
-      })
-      .catch((error) => {
-        toast.error("Something went wrong")
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    signIn('credentials', {
+      ...data,
+      redirect: false
+    }).then(callback => {
+      setIsLoading(false);
+
+      if(callback?.ok) {
+        toast.success("Logged in");
+        redirect("/dashboard")
+      }
+
+      if(callback?.error) {
+        toast.error(callback.error);
+      }
+    })
+
   };
 
   return (

@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"server/helpers"
 	"server/models"
@@ -45,11 +46,13 @@ func (ctrl *AuthController) Login(context *gin.Context) {
 	var input models.AuthenticationInput
 
 	if err := context.ShouldBindJSON(&input); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error binding": err.Error()})
 		return
 	}
 
-	user, err := models.FindUserByUsername(input.Name, ctrl.db)
+	fmt.Println(input)
+
+	user, err := models.FindUserByEmail(input.Email, ctrl.db)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

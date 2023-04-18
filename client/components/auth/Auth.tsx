@@ -18,13 +18,13 @@ const Auth = () => {
         aria-label="Manage your account"
       >
         <Tabs.Trigger
-          className="text-black bg-white px-0 py-5 h-11 flex-1 flex items-center justify-center text-base data-[state=active]:shadow-[0_1px_0_0_#fc4c69] data-[state=active]:text-[#fc4c69] select-none rounded-tl-md"
+          className="text-black bg-white px-0 py-5 h-11 flex-1 flex items-center justify-center text-base data-[state=active]:shadow-[0_1px_0_0_#705ade] data-[state=active]:text-color2 duration-150 transition select-none rounded-tl-md"
           value="tab1"
         >
           Login
         </Tabs.Trigger>
         <Tabs.Trigger
-          className="text-black bg-white px-0 py-5 h-11 flex-1 flex items-center justify-center text-base data-[state=active]:shadow-[0_1px_0_0_#fc4c69] data-[state=active]:text-[#fc4c69] select-none rounded-tr-md"
+          className="text-black bg-white px-0 py-5 h-11 flex-1 flex items-center justify-center text-base data-[state=active]:shadow-[0_1px_0_0_#705ade] data-[state=active]:text-color2 duration-150 transition select-none rounded-tr-md"
           value="tab2"
         >
           Register

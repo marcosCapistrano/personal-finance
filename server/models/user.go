@@ -38,6 +38,16 @@ func (user *User) ValidatePassword(input string) error {
 	return nil
 }
 
+func FindUserByEmail(email string, db *pgxpool.Pool) (*User, error) {
+	var user User
+	err := db.QueryRow(context.Background(), "SELECT user_id, name, email, password FROM users WHERE email=$1", email).Scan(&user.ID, &user.Name, &user.Email, &user.Password)
+	if err != nil {
+		return &User{}, err
+	}
+
+	return &user, nil
+}
+
 func FindUserByUsername(username string, db *pgxpool.Pool) (*User, error) {
 	var user User
 	err := db.QueryRow(context.Background(), "SELECT user_id, name, email, password FROM users WHERE name=$1", username).Scan(&user.ID, &user.Name, &user.Email, &user.Password)
