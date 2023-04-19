@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={classnames("bg-slate-100 font-secondary", font.className, font2.className)}>
+      <body className={classnames("bg-[#f6f6f6] font-secondary", font.className, font2.className)}>
         {children}
       </body>
     </html>

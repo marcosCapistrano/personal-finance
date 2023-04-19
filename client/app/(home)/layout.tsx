@@ -5,8 +5,15 @@ import Modal from "@/components/modals/Modal";
 import Navbar from "@/components/navbar/Navbar";
 
 import ToasterProvider from "@/providers/ToasterProvider";
+import { getCurrentUser } from "@/lib/session";
+import { redirect } from "next/navigation";
 
-const HomeLayout = ({ children }: { children: React.ReactNode }) => {
+const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
+  const user = await getCurrentUser();
+
+  if (user) {
+    redirect("/dashboard");
+  }
   return (
     <>
       <Container>
