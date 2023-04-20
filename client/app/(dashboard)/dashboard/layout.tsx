@@ -25,10 +25,10 @@ export default async function DashboardLayout({
       <div className="flex">
         <Sidenav
           topElement={
-            <Image src="/images/avatar.png" alt="logo" width={50} height={50} />
+            <Image src="/images/sidebar/avatar.png" alt="logo" width={88} height={88} />
           }
         />
-        <div className="flex-1 px-4">{children}</div>
+        <div className="flex-1 px-4 my-6">{children}</div>
         {/* <Sidenav
           topElement={
             <Image
