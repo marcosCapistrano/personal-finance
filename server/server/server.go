@@ -46,8 +46,8 @@ func (server *Server) Start() {
 
 	protectedRoutes := router.Group("/api")
 	protectedRoutes.Use(middleware.JWTAuthMiddleware())
-	// protectedRoutes.GET("/institutions", controller.GetAllInstitutions)
-	protectedRoutes.POST("/institutions", institutions.AddInstitution)
+	protectedRoutes.GET("/institutions", institutions.GetAll)
+	protectedRoutes.POST("/institutions", institutions.Add)
 	protectedRoutes.POST("/accounts", accounts.AddAccount)
 	protectedRoutes.GET("/accounts", accounts.GetAllAccounts)
 	protectedRoutes.POST("/transactions", transactions.AddTransaction)
@@ -76,7 +76,7 @@ func (server *Server) Start() {
 
 	// router.POST("/consolidations", server.postConsolidation)
 
-	router.Run("0.0.0.0:8080")
+	router.Run("127.0.0.1:8080")
 }
 
 // func (server *Server) getAccounts(c *gin.Context) {

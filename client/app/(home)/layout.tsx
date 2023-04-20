@@ -18,7 +18,6 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
     <>
       <Container>
         <ClientOnly>
-          <ToasterProvider />
           {/* <Modal isOpen title="Entrar" showTitle description="Entre com seus detalhes aieeeeeeeeeeeeeeeeeeeeee"/> */}
           <Navbar />
         </ClientOnly>

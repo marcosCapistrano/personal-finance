@@ -16,7 +16,7 @@ const Sidenav: React.FC<SidenavProps> = ({ topElement }) => {
   console.log(selected);
 
   return (
-    <div className="float-right w-72 h-screen">
+    <div className="float-left w-72 h-screen">
       <div className="fixed h-full w-72 bg-color1 rounded-r-xl">
         <div className="flex flex-col items-center gap-4 mt-8">
           {topElement}

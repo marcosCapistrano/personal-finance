@@ -23,7 +23,7 @@ func NewInstitutionController(db *pgxpool.Pool) *InstitutionController {
 	return &InstitutionController{db}
 }
 
-func (ctrl *InstitutionController) AddInstitution(context *gin.Context) {
+func (ctrl *InstitutionController) Add(context *gin.Context) {
 	var input models.Institution
 	if err := context.ShouldBindJSON(&input); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -38,6 +38,16 @@ func (ctrl *InstitutionController) AddInstitution(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusCreated, gin.H{"data": savedInstitution})
+}
+
+func (ctrl *InstitutionController) GetAll(context *gin.Context) {
+	institutions, err := models.FindInstitutions(ctrl.db)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"data": institutions})
 }
 
 // func GetAllInstitutions(context *gin.Context) {

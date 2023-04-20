@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"server/helpers"
 	"server/models"
@@ -20,6 +21,7 @@ func NewAccountController(db *pgxpool.Pool) *AccountController {
 func (ctrl *AccountController) AddAccount(context *gin.Context) {
 	var input models.Account
 	if err := context.ShouldBindJSON(&input); err != nil {
+		fmt.Println(err.Error())
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

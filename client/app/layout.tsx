@@ -1,6 +1,8 @@
 import classnames from 'classnames';
 import {Poppins, Baloo_Chettan_2} from 'next/font/google'
 import "./globals.css";
+import ClientOnly from '@/components/ClientOnly';
+import ToasterProvider from '@/providers/ToasterProvider';
 
 export const metadata = {
   title: "Create Next App",
@@ -18,6 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={classnames("bg-[#f6f6f6] font-secondary", font.className, font2.className)}>
+        <ClientOnly>
+          <ToasterProvider />
+        </ClientOnly>
         {children}
       </body>
     </html>

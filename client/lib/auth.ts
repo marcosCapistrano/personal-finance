@@ -64,8 +64,33 @@ export const authOptions: AuthOptions = {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
     }),
-    // ...add more providers here
+    // ...add more providers her
   ],
+  // callbacks: {
+    // async session({ session, token, user }) {
+    //   session!.user!.id = token.id;
+    //   session.accessToken = token.accessToken;
+    //   return session;
+    // },
+    // async jwt({ token, user, account, profile, isNewUser }) {
+    //   // if (user) {
+    //   //   user.jwt = user;
+    //   // }
+
+    //   if user
+
+    //   console.log("token")
+    //   console.log(token)
+
+    //   console.log("user")
+    //   console.log(user)
+
+    //   console.log("account")
+    //   console.log(account)
+
+    //   return token;
+    // },
+  // },
   pages: {
     signIn: '/auth',
   },

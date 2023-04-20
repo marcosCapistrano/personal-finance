@@ -23,3 +23,22 @@ func (model *Institution) Save(db *pgxpool.Pool) (*Institution, error) {
 
 	return &savedInstitution, err
 }
+
+const institutionsQuery = `
+SELECT * 
+	FROM institutions
+`
+
+func FindInstitutions(db *pgxpool.Pool) ([]Institution, error) {
+	rows, err := db.Query(context.Background(), institutionsQuery)
+	if err != nil {
+		return []Institution{}, err
+	}
+
+	institutions, err := pgx.CollectRows(rows, pgx.RowToStructByName[Institution])
+	if err != nil {
+		return []Institution{}, err
+	}
+
+	return institutions, nil
+}

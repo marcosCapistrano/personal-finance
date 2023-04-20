@@ -26,6 +26,7 @@ const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    toast.loading("loading..");
     setIsLoading(true);
 
     signIn('credentials', {

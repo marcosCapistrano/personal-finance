@@ -12,7 +12,7 @@ interface ModalProps {
   title: string;
   showTitle: boolean;
   description?: string;
-  body?: React.ReactElement;
+  children: React.ReactNode;
   footer?: React.ReactElement;
   actionLabel: string;
   disabled?: boolean;
@@ -27,7 +27,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   showTitle,
   description,
-  body,
+  children,
   footer,
   actionLabel,
   disabled,
@@ -92,10 +92,7 @@ const Modal: React.FC<ModalProps> = ({
         >
           <Dialog.Close
             className="rounded-full h-5 w-5 inline-flex items-center justify-center absolute top-6 right-5"
-            onClick={() => {
-              console.log("Close!");
-              setShowModal(false);
-            }}
+            onClick={handleClose}
           >
             <IoMdClose size={18} />
           </Dialog.Close>
@@ -116,7 +113,7 @@ const Modal: React.FC<ModalProps> = ({
             </Dialog.Description>
           )}
 
-          {body}
+          {children}
 
           <div className="flex flex-col gap-2">
             <div className="flex flex-row items-center gap-4 w-full">
