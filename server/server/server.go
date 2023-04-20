@@ -76,7 +76,7 @@ func (server *Server) Start() {
 
 	// router.POST("/consolidations", server.postConsolidation)
 
-	router.Run("localhost:8080")
+	router.Run("0.0.0.0:8080")
 }
 
 // func (server *Server) getAccounts(c *gin.Context) {
