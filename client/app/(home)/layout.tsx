@@ -1,7 +1,6 @@
 import React from "react";
-import Container from "@/components/Container";
-import ClientOnly from "@/components/ClientOnly";
-import Modal from "@/components/modals/Modal";
+import Container from "@/ui/Container";
+import ClientOnly from "@/ui/ClientOnly";
 import Navbar from "@/components/navbar/Navbar";
 
 import ToasterProvider from "@/providers/ToasterProvider";

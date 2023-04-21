@@ -1,87 +1,28 @@
 import React from "react";
 import Image from "next/image";
+import useModal from "@/hooks/useModal";
+import Button from "@/ui/Button";
+import { AccountsResponse, getAccounts } from "@/lib/accounts";
+import ModalButton from "./ModalButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
 
-const institutions = [
-  {
-    id: 0,
-    name: "Nubank",
-    logo: "/images/institutions/nubank.png",
-    accounts: [
-      {
-        id: 0,
-        name: "Nuconta",
-        type: "DEBIT",
-        balance: 323.0,
-      },
-      {
-        id: 1,
-        name: "Crédito",
-        type: "CREDIT",
-        balance: 323.0,
-      },
-    ],
-  },
-  {
-    id: 1,
-    name: "Picpay",
-    logo: "/images/institutions/picpay.png",
-    accounts: [
-      {
-        id: 0,
-        name: "Débito",
-        type: "DEBIT",
-        balance: 0.0,
-      },
-      {
-        id: 1,
-        name: "Crédito",
-        type: "CREDIT",
-        balance: 200.0,
-      },
-    ],
-  },
-  {
-    id: 2,
-    name: "Inter",
-    logo: "/images/institutions/inter.png",
-    accounts: [
-      {
-        id: 0,
-        name: "Débito",
-        type: "DEBIT",
-        balance: 123.0,
-      },
-      {
-        id: 1,
-        name: "Crédito",
-        type: "CREDIT",
-        balance: 353.0,
-      },
-    ],
-  },
-  {
-    id: 3,
-    name: "C6",
-    logo: "/images/institutions/c6.png",
-    accounts: [
-      {
-        id: 0,
-        name: "Débito",
-        type: "DEBIT",
-        balance: 1323.0,
-      },
-    ],
-  },
-];
 
-const AccountsPage = () => {
+const AccountsPage = async () => {
+  const session = await getServerSession(authOptions);
+  const institutions = (await getAccounts(session)).data;
+  console.log(institutions)
+
   return (
     <>
-      <h1 className="text-5xl">Accounts</h1>
+      <div className="flex justify-between">
+        <h1 className="text-5xl">Accounts</h1>
+        <ModalButton />
+      </div>
       <div className="flex flex-col mt-12 gap-16">
-        {institutions.map((institution) => (
-          <div key={institution.id} className="flex flex-col gap-8">
-            <div className="flex gap-4 items-center">
+        {institutions && institutions.map((institution) => (
+          <div key={institution.institution_id} className="flex flex-col gap-8">
+            <div className="flex gap-4 items-center flex-wrap">
               <Image
                 alt="institution logo"
                 src={institution.logo}
@@ -91,7 +32,7 @@ const AccountsPage = () => {
               />
               <h2 className="text-3xl">{institution.name}</h2>
             </div>
-            <div className="flex gap-8">
+            <div className="flex gap-8 flex-wrap">
               {institution.accounts.map((account) => (
                 <div
                   key={account.id}
@@ -104,7 +45,7 @@ const AccountsPage = () => {
                         ? "Current Balance"
                         : "Open Invoice "}
                     </span>
-                    <span>R$ {account.balance}</span>
+                    <span>R$ 0</span>
                   </div>
                 </div>
               ))}

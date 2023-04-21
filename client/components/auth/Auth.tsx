@@ -1,9 +1,9 @@
 "use client";
 import * as Tabs from "@radix-ui/react-tabs";
 import axios from "axios";
-import RegisterForm from "./RegisterForm";
-import LoginForm from "./LoginForm";
-import Button from "../Button";
+import RegisterForm from "../forms/RegisterForm";
+import LoginForm from "../forms/LoginForm";
+import Button from "../../ui/Button";
 import {FcGoogle} from 'react-icons/fc'
 import {AiFillGithub} from 'react-icons/ai'
 

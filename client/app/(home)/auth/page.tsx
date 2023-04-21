@@ -1,5 +1,5 @@
 import React from "react";
-import ClientOnly from "@/components/ClientOnly";
+import ClientOnly from "@/ui/ClientOnly";
 import Auth from "@/components/auth/Auth";
 
 const AuthPage = () => {

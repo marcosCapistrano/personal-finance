@@ -3,10 +3,10 @@ package helpers
 import (
 	"errors"
 	"fmt"
-	"net/http"
 	"os"
 	"server/models"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -60,13 +60,7 @@ func CurrentUser(context *gin.Context, db *pgxpool.Pool) (*models.User, error) {
 }
 
 func getToken(context *gin.Context) (*jwt.Token, error) {
-	cookie, err := getCookieFromRequest(context)
-	if err != nil {
-		return nil, fmt.Errorf("invalid cookie: %v", err)
-	}
-
-	tokenString := cookie.Value
-	fmt.Printf("Token string: %s", tokenString)
+	tokenString := getTokenFromRequest(context)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
@@ -78,23 +72,12 @@ func getToken(context *gin.Context) (*jwt.Token, error) {
 	return token, err
 }
 
-func getCookieFromRequest(context *gin.Context) (*http.Cookie, error) {
-	cookie, err := context.Request.Cookie("session")
-	if err != nil {
-		return nil, err
+func getTokenFromRequest(context *gin.Context) string {
+	bearerToken := context.Request.Header.Get("Authorization")
+	splitToken := strings.Split(bearerToken, " ")
+	if len(splitToken) == 2 {
+		return splitToken[1]
 	}
 
-	fmt.Printf("%v, %v", cookie.MaxAge, err)
-
-	if err = cookie.Valid(); err != nil {
-		return nil, err
-	}
-
-	fmt.Printf("now: %s, expires: %s", time.Now().String(), cookie.RawExpires)
-	if time.Now().After(cookie.Expires) {
-		return nil, fmt.Errorf("cookie expired")
-	}
-
-	return cookie, nil
-
+	return ""
 }

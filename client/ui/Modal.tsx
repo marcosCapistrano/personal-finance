@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import * as Dialog from "@radix-ui/react-dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
-import Button from "../Button";
+import Button from "./Button";
 
 interface ModalProps {
   isOpen?: boolean;

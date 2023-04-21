@@ -6,11 +6,11 @@ import { toast } from "react-hot-toast";
 import axios from 'axios';
 
 
-import Modal from "./Modal";
-import Input from "@/components/forms/Input";
+import Modal from "../../ui/Modal";
 import useModal from "@/hooks/useModal";
-import Select from "../forms/Select";
+import Select from "../../ui/Select";
 import { getSession } from "next-auth/react";
+import Input from "../../ui/Input";
 
 const AddAcountModal = () => {
   const addAccountModal = useModal();
@@ -32,16 +32,15 @@ const AddAcountModal = () => {
     setIsLoading(true);
 
     axios
-      .post("http://127.0.0.1:8080/api/accounts", data)
+      .post("/api/accounts", data)
       .then(() => {
-        toast.success("Registered!");
+        toast.success("Account Created!");
         addAccountModal.onClose();
       })
       .catch((error) => {
         toast.error(error.message);
       })
       .finally(() => {
-        toast.error("finally");
         setIsLoading(false);
       });
   };

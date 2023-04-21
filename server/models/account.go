@@ -27,21 +27,51 @@ func (input *Account) Save(db *pgxpool.Pool) error {
 }
 
 const accountsByUserQuery = `
-SELECT * 
-	FROM accounts
-	WHERE user_id = $1;
+SELECT
+  i.institution_id,
+  i.name,
+  '/images/institutions/' || lower(i.name) || '.png' AS logo,
+  accounts
+FROM
+  institutions i
+  INNER JOIN (
+    SELECT
+      institution_id,
+      array_agg(
+        json_build_object(
+          'id', account_id,
+          'name', name,
+          'type', type
+        )
+      ) AS accounts
+    FROM
+      accounts
+    WHERE
+      user_id = $1
+    GROUP BY
+      institution_id
+  ) a ON i.institution_id = a.institution_id;
 `
 
-func FindAccountsByUser(user *User, db *pgxpool.Pool) ([]Account, error) {
+func FindAccountsByUser(user *User, db *pgxpool.Pool) ([]map[string]interface{}, error) {
 	rows, err := db.Query(context.Background(), accountsByUserQuery, user.ID)
 	if err != nil {
-		return []Account{}, err
+		return nil, err
 	}
 
-	accounts, err := pgx.CollectRows(rows, pgx.RowToStructByName[Account])
-	if err != nil {
-		return []Account{}, err
+	var institutions []map[string]interface{}
+
+	for rows.Next() {
+		rowMap, err := pgx.RowToMap(rows)
+		if err != nil {
+			return nil, err
+		}
+		institutions = append(institutions, rowMap)
 	}
 
-	return accounts, nil
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+
+	return institutions, nil
 }

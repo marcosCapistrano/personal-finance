@@ -23,7 +23,6 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, outline, smal
         rounded-lg
         hover:opacity-80
         transition
-        w-full
         ${outline ? 'bg-white' : 'bg-color2'}
         ${outline ? 'border-black' : 'border-color2'}
         ${outline ? 'text-black' : 'text-white'}
@@ -31,6 +30,7 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, disabled, outline, smal
         ${small ? 'text-sm' : 'text-md'}
         ${small ? 'font-light' : 'font-semibold'}
         ${small ? 'border-[1px]' : 'border-2'}
+        ${small ? 'w-fit p-4' : 'w-full'}
     `}
     >
         {Icon && (

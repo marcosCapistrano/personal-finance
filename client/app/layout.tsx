@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import {Poppins, Baloo_Chettan_2} from 'next/font/google'
 import "./globals.css";
-import ClientOnly from '@/components/ClientOnly';
+import ClientOnly from '@/ui/ClientOnly';
 import ToasterProvider from '@/providers/ToasterProvider';
 
 export const metadata = {

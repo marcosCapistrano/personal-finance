@@ -21,13 +21,16 @@ func NewAccountController(db *pgxpool.Pool) *AccountController {
 func (ctrl *AccountController) AddAccount(context *gin.Context) {
 	var input models.Account
 	if err := context.ShouldBindJSON(&input); err != nil {
-		fmt.Println(err.Error())
+		fmt.Printf("error binding account: %s\n", err.Error())
+		fmt.Printf("input: %v\n", context.Request.Body)
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Println(context.GetRawData())
 
 	user, err := helpers.CurrentUser(context, ctrl.db)
 	if err != nil {
+		fmt.Printf("error getting current user: %s", err.Error())
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -36,9 +39,12 @@ func (ctrl *AccountController) AddAccount(context *gin.Context) {
 	err = input.Save(ctrl.db)
 
 	if err != nil {
+		fmt.Printf("error saving user: %s", err.Error())
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	fmt.Println(input)
 
 	context.JSON(http.StatusCreated, gin.H{"data": nil})
 }
@@ -57,5 +63,5 @@ func (ctrl *AccountController) GetAllAccounts(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": accounts})
+	context.IndentedJSON(http.StatusOK, accounts)
 }

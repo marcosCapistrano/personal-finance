@@ -66,34 +66,30 @@ export const authOptions: AuthOptions = {
     }),
     // ...add more providers her
   ],
-  // callbacks: {
-    // async session({ session, token, user }) {
-    //   session!.user!.id = token.id;
-    //   session.accessToken = token.accessToken;
-    //   return session;
-    // },
-    // async jwt({ token, user, account, profile, isNewUser }) {
-    //   // if (user) {
-    //   //   user.jwt = user;
-    //   // }
-
-    //   if user
-
-    //   console.log("token")
-    //   console.log(token)
-
-    //   console.log("user")
-    //   console.log(user)
-
-    //   console.log("account")
-    //   console.log(account)
-
-    //   return token;
-    // },
-  // },
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      return true
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl
+    },
+    async session({ session, user, token }) {
+      session.user.accessToken = token.accessToken;
+      return session
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      if(user) {
+      token.accessToken = user.jwt;
+      }
+      return token
+    }
+},
   pages: {
     signIn: '/auth',
   },
   debug: process.env.NODE_ENV === 'development',
-  secret: 'lalalalal'
+  secret: 'lalalalal',
+  session: {
+    strategy: "jwt"
+  }
 }

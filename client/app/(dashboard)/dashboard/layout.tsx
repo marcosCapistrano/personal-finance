@@ -1,11 +1,9 @@
-import Container from "@/components/Container";
-import PrimaryNavbar from "@/components/navbar/PrimaryNavbar";
 import Sidenav from "@/components/navbar/Sidenav";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import AddAcountModal from "@/components/modals/AddAcountModal";
-import ClientOnly from "@/components/ClientOnly";
+import ClientOnly from "@/ui/ClientOnly";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -18,8 +16,6 @@ export default async function DashboardLayout({
 
   if (!user) {
     redirect("/auth");
-  } else {
-    console.log(user)
   }
 
   return (

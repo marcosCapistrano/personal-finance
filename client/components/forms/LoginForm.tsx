@@ -3,9 +3,9 @@ import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import axios from "axios";
-import Button from "../Button";
-import Label from "../forms/Label";
-import Input from "../forms/Input";
+import Button from "../../ui/Button";
+import Label from '../../ui/Label';
+import Input from "../../ui/Input";
 import { toast } from "react-hot-toast";
 import { redirect, useRouter } from 'next/navigation';
 

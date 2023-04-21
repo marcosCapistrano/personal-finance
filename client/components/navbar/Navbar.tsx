@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Container from "../Container";
+import Container from "../../ui/Container";
 
 const Navbar = () => {
   return (

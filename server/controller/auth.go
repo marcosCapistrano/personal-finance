@@ -70,7 +70,5 @@ func (ctrl *AuthController) Login(context *gin.Context) {
 		return
 	}
 
-	context.SetCookie("session", jwt, 60*60*24, "/", "localhost", false, true)
-
-	context.JSON(http.StatusOK, gin.H{"message": "cookie created"})
+	context.JSON(http.StatusOK, gin.H{"jwt": jwt})
 }

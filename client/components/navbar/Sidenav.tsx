@@ -13,8 +13,6 @@ interface SidenavProps {
 const Sidenav: React.FC<SidenavProps> = ({ topElement }) => {
   const [selected, setSelected] = useState(0);
 
-  console.log(selected);
-
   return (
     <div className="float-left w-72 h-screen">
       <div className="fixed h-full w-72 bg-color1 rounded-r-xl">
@@ -55,7 +53,6 @@ const NavItem: React.FC<NavItemProps> = ({ imageUrl, text, navUrl }) => {
   const pathname = usePathname();
   const isSelected = pathname === navUrl;
 
-  console.log(isSelected);
   return (
     <Link
       href={navUrl}
