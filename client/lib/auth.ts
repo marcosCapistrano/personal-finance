@@ -1,3 +1,4 @@
+//@ts-nocheck
 import axios from "axios";
 import { AuthOptions } from "next-auth"
 import GithubProvider from "next-auth/providers/github";

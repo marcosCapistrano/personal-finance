@@ -4,13 +4,20 @@ import axios from "axios";
 import RegisterForm from "../forms/RegisterForm";
 import LoginForm from "../forms/LoginForm";
 import Button from "../../ui/Button";
-import {FcGoogle} from 'react-icons/fc'
-import {AiFillGithub} from 'react-icons/ai'
+import { FcGoogle } from "react-icons/fc";
+import { AiFillGithub } from "react-icons/ai";
+import { useState } from "react";
+import Card from "@/ui/Card";
+import { HTMLProps } from "react";
 
-const Auth = () => {
+interface AuthProps {
+    className?: HTMLProps<HTMLElement>["className"] 
+}
+
+const Auth:React.FC<AuthProps> = ({className}) => {
   return (
     <Tabs.Root
-      className="flex flex-col max-w-xl mx-auto mt-32 shadow-lg"
+      className="flex flex-col shadow-lg max-w-xl mx-auto"
       defaultValue="tab1"
     >
       <Tabs.List

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth";
 
@@ -26,8 +27,6 @@ export const getAccounts = async (session): Promise<AccountsResponse> => {
       Authorization: `Bearer ${session.user.accessToken}`,
     },
   });
-
-  console.log(res.ok);
 
   if (!res.ok) {
     throw new Error(`failed: ${res.statusText}`);

@@ -19,35 +19,12 @@ export default async function DashboardLayout({
   }
 
   return (
-    // <Container>
     <>
-      {/* <PrimaryNavbar></PrimaryNavbar> */}
       <ClientOnly>
         <AddAcountModal />
       </ClientOnly>
-      <Sidenav
-        topElement={
-          <Image
-            src="/images/sidebar/avatar.png"
-            alt="logo"
-            width={88}
-            height={88}
-          />
-        }
-      />
-      <div className="flex">
-        <div className="flex-1 px-4 my-6">{children}</div>
-        {/* <Sidenav
-          topElement={
-            <Image
-              src="/images/avatar.png"
-              alt="avatar image"
-              width={40}
-              height={40}
-            />
-          } */}
-        {/* /> */}
-      </div>
+      <Sidenav />
+      <div className="ml-72 p-4">{children}</div>
     </>
   );
 }

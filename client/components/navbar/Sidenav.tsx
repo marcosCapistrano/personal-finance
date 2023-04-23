@@ -5,37 +5,40 @@ import classNames from "classnames";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface SidenavProps {
-  // children: React.ReactNode;
-  topElement: React.ReactElement;
-}
-
-const Sidenav: React.FC<SidenavProps> = ({ topElement }) => {
-  const [selected, setSelected] = useState(0);
-
+const Sidenav = () => {
   return (
-    <div className="float-left w-72 h-screen">
-      <div className="fixed h-full w-72 bg-color1 rounded-r-xl">
-        <div className="flex flex-col items-center gap-4 mt-8">
-          {topElement}
-          <div className="flex flex-col items-center mt-4 gap-8 w-full">
-            <NavItem
-              imageUrl="/images/logo-white.png"
-              text="Home"
-              navUrl="/dashboard"
-            />
-            <NavItem
-              imageUrl="/images/sidebar/accounts.png"
-              text="Accounts"
-              navUrl="/dashboard/accounts"
-            />
-            <NavItem
-              imageUrl="/images/sidebar/transactions.png"
-              text="Transactions"
-              navUrl="/dashboard/transactions"
-            />
-          </div>
-        </div>
+    <div
+      className="
+      h-full
+      w-72
+      fixed
+      top-0
+      left-0
+      bg-color2
+      overflow-x-hidden
+      pt-4
+      transition
+      duration-150
+    "
+    >
+      <div className="flex flex-col items-center">
+        <Image src="/images/sidebar/avatar.png" alt="avatar image" width={60} height={60} 
+        className="pb-8"/>
+        <NavItem
+          imageUrl="/images/logo-white.png"
+          text="Home"
+          navUrl="/dashboard"
+        />
+        <NavItem
+          imageUrl="/images/sidebar/accounts.png"
+          text="Accounts"
+          navUrl="/dashboard/accounts"
+        />
+        <NavItem
+          imageUrl="/images/sidebar/transactions.png"
+          text="Transactions"
+          navUrl="/dashboard/transactions"
+        />
       </div>
     </div>
   );
@@ -54,29 +57,33 @@ const NavItem: React.FC<NavItemProps> = ({ imageUrl, text, navUrl }) => {
   const isSelected = pathname === navUrl;
 
   return (
-    <Link
-      href={navUrl}
-      className={classNames(
-        "w-full py-4 transition duration-300 mr-14 rounded-r-full text-center",
-        isSelected && "bg-orange-500 shadow-md"
-      )}
-    >
-      <div className="
-        flex
+    <div className="w-full py-6">
+      <Link href={navUrl}>
+        <div className="relative">
+          <div className="flex items-center justify-between px-8 z-10">
+            <Image src={imageUrl} alt="image" width={22} height={22} />
+            <div className="text-white flex-1 text-center text-lg">{text}</div>
+          </div>
+          <div
+            className={`
+        absolute 
+        h-full 
         w-full
-        items-center
-        justify-start
-        gap-8
-      ">
-        <Image
-          src={imageUrl}
-          alt="image"
-          width={22}
-          height={22}
-          className="ml-14"
-        />
-        <span className="text-white">{text}</span>
-      </div>
-    </Link>
+        top-1/2 
+        -left-8
+        py-8 
+        -translate-y-1/2
+        -translate-x-full
+        z-[-1]
+        mr-8
+        rounded-full
+        transition
+        duration-300
+        ${isSelected && "bg-orange-500 && translate-x-0"}
+        `}
+          ></div>
+        </div>
+      </Link>
+    </div>
   );
 };

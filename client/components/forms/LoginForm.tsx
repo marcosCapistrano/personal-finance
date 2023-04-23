@@ -1,13 +1,14 @@
-import {signIn} from 'next-auth/react';
+"use client";
+import { signIn } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import * as Form from "@radix-ui/react-form";
 import axios from "axios";
-import Button from "../../ui/Button";
-import Label from '../../ui/Label';
-import Input from "../../ui/Input";
+import Button from "@/ui/Button";
+import Label from "@/ui/Label";
+import Input from "@/ui/Input";
 import { toast } from "react-hot-toast";
-import { redirect, useRouter } from 'next/navigation';
+import { redirect, useRouter } from "next/navigation";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -26,31 +27,32 @@ const LoginForm = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    toast.loading("loading..");
     setIsLoading(true);
+    const loadingToast = toast.loading("Loading...")
 
-    signIn('credentials', {
+    signIn("credentials", {
       ...data,
-      redirect: false
-    }).then(callback => {
+      redirect: false,
+    }).then((callback) => {
       setIsLoading(false);
 
-      if(callback?.ok) {
+      if (callback?.ok) {
         toast.success("Logged in");
-        redirect("/dashboard")
+        router.replace("/dashboard")
       }
 
-      if(callback?.error) {
+      if (callback?.error) {
         toast.error(callback.error);
       }
-    })
-
+    }).finally(() => {
+      toast.dismiss(loadingToast)
+    });
   };
 
   return (
     <form>
       <div className="mb-4 w-full flex flex-col justify-start">
-        <Input 
+        <Input
           id="email"
           label="Email"
           disabled={isLoading}
@@ -60,7 +62,7 @@ const LoginForm = () => {
         />
       </div>
       <div className="mb-4 w-full flex flex-col justify-start">
-        <Input 
+        <Input
           id="password"
           label="Password"
           disabled={isLoading}
@@ -70,7 +72,7 @@ const LoginForm = () => {
         />
       </div>
 
-      <Button label="Login" onClick={handleSubmit(onSubmit)}/>
+      <Button label="Login" onClick={handleSubmit(onSubmit)} />
     </form>
   );
 };

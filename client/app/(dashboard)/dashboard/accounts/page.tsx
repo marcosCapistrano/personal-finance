@@ -10,7 +10,8 @@ import { authOptions } from "@/lib/auth";
 
 const AccountsPage = async () => {
   const session = await getServerSession(authOptions);
-  const institutions = (await getAccounts(session)).data;
+  const institutions = (await getAccounts(session));
+  console.log("inst:")
   console.log(institutions)
 
   return (
