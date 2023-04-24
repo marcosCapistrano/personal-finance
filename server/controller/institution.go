@@ -47,7 +47,7 @@ func (ctrl *InstitutionController) GetAll(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": institutions})
+	context.JSON(http.StatusOK, institutions)
 }
 
 // func GetAllInstitutions(context *gin.Context) {

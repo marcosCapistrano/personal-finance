@@ -40,7 +40,7 @@ export default function RootLayout({
           font2.className
         )}
       >
-        {/* <ToasterProvider /> */}
+        <ToasterProvider />
         {children}
       </body>
     </html>

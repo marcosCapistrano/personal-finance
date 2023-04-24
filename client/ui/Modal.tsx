@@ -65,83 +65,80 @@ const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <ClientOnly>
-      <div className="w-screen h-screen absolute top-0 left-0 z-1"></div>
-    </ClientOnly>
-    // <Dialog.Root open={showModal} modal>
-    //   <Dialog.Trigger />
-    //   <Dialog.Portal>
-    //     <Dialog.Overlay
-    //       className="
-    //       bg-neutral-700/50
-    //       absolute
-    //       top-0
-    //     animate-overlayShow
-    //     w-full
-    //     h-screen
-    //     z-1
-    //     "
-    //     />
-    //     <Dialog.Content
-    //       aria-describedby={description}
-    //       className={`
-    //     fixed
-    //     top-1/2
-    //     left-1/2
-    //     z-50
-    //     -translate-x-1/3
-    //     -translate-y-1/2
-    //     p-6
-    //     animate-contentShow
-    //     bg-white
-    //     rounded-md
-    //     `}
-    //     >
-    //       <Dialog.Close
-    //         className="rounded-full h-5 w-5 inline-flex items-center justify-center absolute top-6 right-5"
-    //         onClick={handleClose}
-    //       >
-    //         <IoMdClose size={18} />
-    //       </Dialog.Close>
+    <Dialog.Root open={showModal} modal>
+      <Dialog.Trigger />
+      <Dialog.Portal>
+        <Dialog.Overlay
+          className="
+          bg-neutral-700/50
+          absolute
+          top-0
+        animate-overlayShow
+        w-full
+        h-screen
+        z-1
+        "
+        />
+        <Dialog.Content
+          aria-describedby={description}
+          className={`
+        fixed
+        top-1/2
+        left-1/2
+        z-50
+        -translate-x-1/2
+        -translate-y-1/2
+        p-6
+        animate-contentShow
+        bg-white
+        rounded-md
+        `}
+        >
+          <Dialog.Close
+            className="rounded-full h-5 w-5 inline-flex items-center justify-center absolute top-6 right-5"
+            onClick={handleClose}
+          >
+            <IoMdClose size={18} />
+          </Dialog.Close>
 
-    //       {showTitle ? (
-    //         <Dialog.Title className="margin-0 font-medium text-slate-950 leading-normal">
-    //           {title}
-    //         </Dialog.Title>
-    //       ) : (
-    //         <VisuallyHidden.Root>
-    //           <Dialog.Title>{title}</Dialog.Title>
-    //         </VisuallyHidden.Root>
-    //       )}
+          {showTitle ? (
+            <Dialog.Title className="margin-0 font-medium text-slate-950 leading-normal">
+              {title}
+            </Dialog.Title>
+          ) : (
+            <VisuallyHidden.Root>
+              <Dialog.Title>{title}</Dialog.Title>
+            </VisuallyHidden.Root>
+          )}
 
-    //       {description && (
-    //         <Dialog.Description className="m-[10px_0_20px] text-slate-700 leading-normal">
-    //           {description}
-    //         </Dialog.Description>
-    //       )}
+          {description && (
+            <Dialog.Description className="m-[10px_0_20px] text-slate-700 leading-normal">
+              {description}
+            </Dialog.Description>
+          )}
 
-    //       {children}
+          {children}
 
-    //       <div className="flex flex-col gap-2">
-    //         <div className="flex flex-row items-center gap-4 w-full">
-    //           {secondaryAction && secondaryActionLabel && (
-    //             <Button
-    //               outline
-    //               disabled={disabled}
-    //               label={secondaryActionLabel}
-    //               onClick={handleSecondaryAction}
-    //             />
-    //           )}
-    //           <Button
-    //             disabled={disabled}
-    //             label={actionLabel}
-    //             onClick={handleSubmit}
-    //           />
-    //         </div>
-    //       </div>
-    //     </Dialog.Content>
-    //   </Dialog.Portal>
-    // </Dialog.Root>
+          <div className="flex flex-col gap-2">
+            <div className="flex flex-row items-center gap-4 w-full">
+              {secondaryAction && secondaryActionLabel && (
+                <Button
+                  outline
+                  disabled={disabled}
+                  label={secondaryActionLabel}
+                  onClick={handleSecondaryAction}
+                />
+              )}
+              <Button
+                disabled={disabled}
+                label={actionLabel}
+                onClick={handleSubmit}
+              />
+            </div>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 };
 

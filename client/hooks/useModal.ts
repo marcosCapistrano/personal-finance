@@ -1,15 +1,17 @@
 import { create } from 'zustand';
 
+export type ModalName = "add_account" | "add_transaction"
+
 interface ModalStore {
-  isOpen: boolean;
-  onOpen: () => void;
+  openedModal: ModalName | null;
+  onOpen: (name: ModalName | null) => void;
   onClose: () => void;
 }
 
 const useModal = create<ModalStore>((set) => ({
-  isOpen: false,
-  onOpen: () => set({ isOpen: true }),
-  onClose: () => set({ isOpen: false })
+  openedModal: null,
+  onOpen: (name: ModalName | null) => set({ openedModal: name }),
+  onClose: () => set({ openedModal: null })
 }));
 
 

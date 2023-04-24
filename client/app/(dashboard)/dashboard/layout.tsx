@@ -1,9 +1,7 @@
 import Sidenav from "@/components/navbar/Sidenav";
+import AddAcountModal from "@/components/modals/AddAcountModal";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
-import Image from "next/image";
-import AddAcountModal from "@/components/modals/AddAcountModal";
-import ClientOnly from "@/ui/ClientOnly";
 
 interface DashboardLayoutProps {
   children?: React.ReactNode;
@@ -20,9 +18,7 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <ClientOnly>
-        <AddAcountModal />
-      </ClientOnly>
+      <AddAcountModal/>
       <Sidenav />
       <div className="ml-72 p-4">{children}</div>
     </>

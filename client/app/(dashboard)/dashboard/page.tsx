@@ -1,7 +1,4 @@
-'use client'
-import Button from "@/ui/Button";
 import React from "react";
-import useModal from "@/hooks/useModal";
 
 const DashboardPage = async () => {
   return (

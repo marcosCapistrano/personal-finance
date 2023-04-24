@@ -79,6 +79,7 @@ const NavItem: React.FC<NavItemProps> = ({ imageUrl, text, navUrl }) => {
         rounded-full
         transition
         duration-300
+      ease-in-out
         ${isSelected && "bg-orange-500 && translate-x-0"}
         `}
           ></div>

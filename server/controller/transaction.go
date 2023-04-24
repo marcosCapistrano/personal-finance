@@ -55,5 +55,5 @@ func (ctrl *TransactionController) GetAllTransactions(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"data": transactions})
+	context.JSON(http.StatusOK, transactions)
 }

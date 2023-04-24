@@ -64,6 +64,8 @@ const Input: React.FC<InputProps> = ({
       />
       <label
         className={`
+          absolute
+          top-5
           text-md
           duration-150
           transform

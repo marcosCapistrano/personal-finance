@@ -11,7 +11,7 @@ interface SelectProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
-  options: [{value: string, label: string}]
+  options: Array<{value: string, label: string}>
 }
 
 const Select: React.FC<SelectProps> = ({

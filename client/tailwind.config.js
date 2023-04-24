@@ -1,12 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
-
-    // Or if using `src` directory:
-    "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    "./ui/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
@@ -18,8 +16,8 @@ module.exports = {
         color5: "#f6f6f6",
       },
       fontFamily: {
-        primary: ['Poppins'],
-        secondary: ['Baloo Chettan 2']
+        primary: ["Poppins"],
+        secondary: ["Baloo Chettan 2"],
       },
       keyframes: {
         overlayShow: {
@@ -27,7 +25,10 @@ module.exports = {
           "100%": { opacity: 1 },
         },
         contentShow: {
-          "0%": { opacity: 0, transform: "translate(-50%, -48%) scale(0.96)" },
+          "0%": {
+            opacity: 0,
+            transform: "translate(-50%, -48%) scale(0.96)",
+          },
           "100%": { opacity: 1, transform: "translate(-50%, -50%) scale(1)" },
         },
       },

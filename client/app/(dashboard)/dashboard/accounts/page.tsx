@@ -1,27 +1,23 @@
 import React from "react";
 import Image from "next/image";
-import useModal from "@/hooks/useModal";
-import Button from "@/ui/Button";
-import { AccountsResponse, getAccounts } from "@/lib/accounts";
-import ModalButton from "./ModalButton";
+import ModalButton from "@/components/modals/ModalButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
+import { getAccounts } from "@/lib/accounts";
 
 
 const AccountsPage = async () => {
   const session = await getServerSession(authOptions);
-  const institutions = (await getAccounts(session));
-  console.log("inst:")
-  console.log(institutions)
+  const accounts = (await getAccounts(session));
 
   return (
     <>
       <div className="flex justify-between">
         <h1 className="text-5xl">Accounts</h1>
-        <ModalButton />
+        <ModalButton modalName="add_account"/>
       </div>
       <div className="flex flex-col mt-12 gap-16">
-        {institutions && institutions.map((institution) => (
+        {accounts && accounts.map((institution) => (
           <div key={institution.institution_id} className="flex flex-col gap-8">
             <div className="flex gap-4 items-center flex-wrap">
               <Image

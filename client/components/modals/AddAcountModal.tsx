@@ -4,17 +4,22 @@ import React, { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import axios from 'axios';
-
+import useSWR from 'swr';
 
 import Modal from "../../ui/Modal";
 import useModal from "@/hooks/useModal";
 import Select from "../../ui/Select";
-import { getSession } from "next-auth/react";
 import Input from "../../ui/Input";
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 const AddAcountModal = () => {
-  const addAccountModal = useModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const modal = useModal();
+  const [isLoadingForm, setIsLoadingForm] = useState(false);
+  const { data, error, isLoading } = useSWR(
+    "/api/institutions",
+    fetcher
+  );
 
   const {
     register,
@@ -29,21 +34,33 @@ const AddAcountModal = () => {
   });
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true);
+    setIsLoadingForm(true);
 
     axios
       .post("/api/accounts", data)
       .then(() => {
         toast.success("Account Created!");
-        addAccountModal.onClose();
+        modal.onClose();
       })
       .catch((error) => {
         toast.error(error.message);
       })
       .finally(() => {
-        setIsLoading(false);
+        setIsLoadingForm(false);
       });
   };
+
+  if (error) return <div>An error has occurred.</div>;
+  if (isLoading) return <div>Loading...</div>;
+
+  const rawOptions: Array<{name: string, institution_id: string}> = data;
+  console.log(rawOptions)
+  const options: Array<{label: string, value: string}> = rawOptions.map(option => {
+    return {
+      label: option.name,
+      value: option.institution_id
+    }
+  })
 
   return (
     <Modal
@@ -52,9 +69,9 @@ const AddAcountModal = () => {
       description="Enter the information below to add a new account"
       actionLabel="Add"
       onSubmit={handleSubmit(onSubmit)}
-      onClose={addAccountModal.onClose}
+      onClose={modal.onClose}
       disabled={false}
-      isOpen={addAccountModal.isOpen}
+      isOpen={modal.openedModal === "add_account"}
     >
       <form>
       <div className="flex flex-col gap-4 mb-8">
@@ -64,7 +81,7 @@ const AddAcountModal = () => {
           disabled={isLoading}
           register={register}
           errors={errors}
-          options={[{label: "Picpay", value: "c08d2ad7-f71c-45dc-801c-006c3ab6931e"}]}
+          options={options}
           required
         />
 
