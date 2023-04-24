@@ -11,7 +11,6 @@ const DropdownButton: React.FC<DropdownButtonProps> = ({
   states: initialStates,
   onChangeState
 }) => {
-  const [open, setOpen] = useState(false);
   const [states, setStates] = useState(initialStates);
 
   const setSelected = (index: number) => {

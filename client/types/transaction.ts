@@ -1,6 +1,6 @@
 export type Transaction = {
     transaction_id: string;
-    date: Date;
+    date: string;
     type: "CREDIT" | "DEBIT";
     value: number;
     description: string;

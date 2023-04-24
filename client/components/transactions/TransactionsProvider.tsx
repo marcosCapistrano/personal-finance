@@ -3,10 +3,21 @@ import { Transaction } from "@/types/transaction";
 import React, { createContext, useReducer } from "react";
 
 export const TransactionsContext = createContext<Transaction[]>([]);
-export const TransactionsDispatchContext = createContext<React.Dispatch<() => void> | null>(null);
+export const TransactionsDispatchContext = createContext<React.Dispatch<
+  () => void
+> | null>(null);
 
-const TransactionsProvider = ({ children, transactions: initialTransactions }: { children: React.ReactNode, transactions: Transaction[] }) => {
-  const [transactions, dispatch] = useReducer(transactionsReducer, initialTransactions);
+const TransactionsProvider = ({
+  children,
+  transactions: initialTransactions,
+}: {
+  children: React.ReactNode;
+  transactions: Transaction[];
+}) => {
+  const [transactions, dispatch] = useReducer(
+    transactionsReducer,
+    initialTransactions
+  );
 
   return (
     <TransactionsContext.Provider value={transactions}>
@@ -19,6 +30,16 @@ const TransactionsProvider = ({ children, transactions: initialTransactions }: {
 
 function transactionsReducer(transactions: Transaction[], action: () => void) {
   switch (action.type) {
+    case "filter": {
+      return transactions.map((t) => {
+        if (action.filter === "ALL" || t.type === action.filter) {
+          t.visible = true;
+        } else {
+          t.visible = false;
+        }
+          return t;
+      });
+    }
     case "added": {
       return [
         ...transactions,
