@@ -1,9 +1,10 @@
 //@ts-nocheck
 import axios from "axios";
-import { AuthOptions } from "next-auth"
+import { AuthOptions, getServerSession } from "next-auth"
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { getSession } from "./session";
 
 export async function register(
   credentials: any,
@@ -29,6 +30,17 @@ export async function login(
   );
 
   return user;
+}
+
+export async function getToken(isServer: boolean): string {
+  if(isServer) {
+    const serverSession = await getServerSession(authOptions);
+
+    return serverSession.user.accessToken;
+  }
+
+  const clientSession = await getSession();
+  return clientSession.user.accessToken;
 }
 
 export const authOptions: AuthOptions = {

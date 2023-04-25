@@ -1,8 +1,15 @@
+import { getServerSession } from "next-auth";
+import { authOptions } from "./auth";
+
 //@ts-nocheck
-export const getInstitutions = async (session): Promise<AccountsResponse> => {
+export const getInstitutions = async () => {
+  const session = await getServerSession(authOptions)
+
   if (!session || !session.user) {
     throw new Error("authenticate first");
   }
+
+  console.log("FOUND SESSION")
 
   const res = await fetch("http://localhost:8080/api/institutions", {
     headers: {

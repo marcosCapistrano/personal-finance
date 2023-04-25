@@ -1,5 +1,6 @@
 import Sidenav from "@/components/navbar/Sidenav";
 import AddAcountModal from "@/components/modals/AddAcountModal";
+import AddTransactionModal from "@/components/modals/AddTransactionModal";
 import { getCurrentUser } from "@/lib/session";
 import { redirect } from "next/navigation";
 
@@ -18,9 +19,10 @@ export default async function DashboardLayout({
 
   return (
     <>
-      <AddAcountModal/>
-      <Sidenav />
-      <div className="ml-72 p-4">{children}</div>
+        <AddTransactionModal />
+        <AddAcountModal />
+        <Sidenav />
+        <div className="ml-72 p-4">{children}</div>
     </>
   );
 }

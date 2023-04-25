@@ -1,25 +1,31 @@
+//@ts-nocheck
 "use client"
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import axios from 'axios';
 import useSWR from 'swr';
 
-import Modal from "../../ui/Modal";
+import Modal from "@/ui/Modal";
 import useModal from "@/hooks/useModal";
-import Select from "../../ui/Select";
-import Input from "../../ui/Input";
-
-const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import Select from "@/ui/Select";
+import Input from "@/ui/Input";
+import { useSession } from "next-auth/react";
 
 const AddAcountModal = () => {
   const modal = useModal();
+  const [data, setData] = useState(null)
   const [isLoadingForm, setIsLoadingForm] = useState(false);
-  const { data, error, isLoading } = useSWR(
-    "/api/institutions",
-    fetcher
-  );
+
+  useEffect(() => {
+    async function fetchData() {
+      const res = await axios.get("/api/institutions");
+
+      setData(res.data)
+    }
+    fetchData();
+  }, [])
 
   const {
     register,
@@ -32,6 +38,7 @@ const AddAcountModal = () => {
       type: "",
     },
   });
+
 
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoadingForm(true);
@@ -50,12 +57,11 @@ const AddAcountModal = () => {
       });
   };
 
-  if (error) return <div>An error has occurred.</div>;
-  if (isLoading) return <div>Loading...</div>;
-
-  const rawOptions: Array<{name: string, institution_id: string}> = data;
+  const rawOptions: Array<{ name: string, institution_id: string }> = data;
   console.log(rawOptions)
-  const options: Array<{label: string, value: string}> = rawOptions.map(option => {
+  if (!rawOptions)
+    return null
+  const options: Array<{ label: string, value: string }> = rawOptions.map(option => {
     return {
       label: option.name,
       value: option.institution_id
@@ -74,37 +80,37 @@ const AddAcountModal = () => {
       isOpen={modal.openedModal === "add_account"}
     >
       <form>
-      <div className="flex flex-col gap-4 mb-8">
-        <Select
-          id="institution_id"
-          label="Institution"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          options={options}
-          required
-        />
+        <div className="flex flex-col gap-4 mb-8">
+          <Select
+            id="institution_id"
+            label="Institution"
+            disabled={isLoadingForm}
+            register={register}
+            errors={errors}
+            options={options}
+            required
+          />
 
-        <Input
-          id="name"
-          label="Account Name"
-          type="text"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
+          <Input
+            id="name"
+            label="Account Name"
+            type="text"
+            disabled={isLoadingForm}
+            register={register}
+            errors={errors}
+            required
+          />
 
-        <Input
-          id="type"
-          label="Account Type"
-          type="text"
-          disabled={isLoading}
-          register={register}
-          errors={errors}
-          required
-        />
-      </div>
+          <Input
+            id="type"
+            label="Account Type"
+            type="text"
+            disabled={isLoadingForm}
+            register={register}
+            errors={errors}
+            required
+          />
+        </div>
       </form>
     </Modal>
   );

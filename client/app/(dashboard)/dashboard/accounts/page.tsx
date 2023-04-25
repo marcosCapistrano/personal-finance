@@ -8,7 +8,7 @@ import { getAccounts } from "@/lib/accounts";
 
 const AccountsPage = async () => {
   const session = await getServerSession(authOptions);
-  const accounts = (await getAccounts(session));
+  const accounts = await getAccounts(session);
 
   return (
     <>

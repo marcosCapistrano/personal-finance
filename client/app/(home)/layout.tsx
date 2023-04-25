@@ -11,6 +11,7 @@ const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
   if (user) {
     redirect("/dashboard");
   }
+
   return (
     <>
       <Container>

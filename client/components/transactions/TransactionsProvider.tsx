@@ -30,7 +30,7 @@ const TransactionsProvider = ({
 
 function transactionsReducer(transactions: Transaction[], action: () => void) {
   switch (action.type) {
-    case "filter": {
+    case "filter_type": {
       return transactions.map((t) => {
         if (action.filter === "ALL" || t.type === action.filter) {
           t.visible = true;

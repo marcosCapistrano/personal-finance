@@ -10,14 +10,18 @@ const Table = () => {
   return (
     <table
       className="
+      mt-8
+      shadow-md
     bg-white 
        p-4 
        border-collapse 
        w-full 
-    [&>tr:nth-child(2n)]:bg-slate-200
-    [&>tr>th]:text-left
-    [&>tr]:p-4"
+    [&>tbody>tr:nth-child(2n)]:bg-slate-200
+    [&>thead>tr>th]:text-left
+    [&>tbody>tr>td]:p-4
+    [&>thead>tr>th]:p-4"
     >
+      <thead>
       <tr>
         <th>Date</th>
         <th>Description</th>
@@ -26,7 +30,9 @@ const Table = () => {
         <th>Amount</th>
         <th>Actions</th>
       </tr>
+</thead>
 
+    <tbody>
       {transactions &&
         transactions.map((d, i) => {
           if (d && d.visible)
@@ -45,6 +51,7 @@ const Table = () => {
               </tr>
             );
         })}
+</tbody>
     </table>
   );
 };

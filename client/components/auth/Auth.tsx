@@ -15,6 +15,7 @@ interface AuthProps {
 }
 
 const Auth:React.FC<AuthProps> = ({className}) => {
+
   return (
     <Tabs.Root
       className="flex flex-col shadow-lg max-w-xl mx-auto"
