@@ -46,7 +46,7 @@ const AddTransactionModal = () => {
       account_id: "",
       date: "",
       type: "",
-      value: 0,
+      value: "",
       description: "",
     },
   });
@@ -108,15 +108,17 @@ const AddTransactionModal = () => {
             register={register}
             errors={errors}
             required
+            valueAsDate
           />
 
-          <Input
+          <Select
             id="type"
             label="Transaction Type"
             type="text"
             disabled={isLoadingForm}
             register={register}
             errors={errors}
+            options={[{label: "Income", value: "INCOME"}, {label: "Expense", value: "EXPENSE"}]}
             required
           />
 
@@ -128,6 +130,7 @@ const AddTransactionModal = () => {
             register={register}
             errors={errors}
             required
+            valueAsNumber
           />
 
           <Input

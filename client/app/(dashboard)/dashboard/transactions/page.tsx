@@ -11,6 +11,8 @@ import { authOptions } from "@/lib/auth";
 import TypeFilter from "@/components/transactions/TypeFilter";
 import Table from "@/components/transactions/Table";
 import DateFilter from "@/components/transactions/DateFilter";
+import TransactionsChart from "@/components/charts/TransactionsChart";
+import CategoriesChart from "@/components/charts/CategoriesChart";
 
 const TransactionsPage = async () => {
   const session = await getServerSession(authOptions);
@@ -29,9 +31,13 @@ const TransactionsPage = async () => {
             <DateFilter />
           </div>
 
-          <div className="flex gap-8 mt-8">
-            <div className="bg-white w-2/3 h-56 shadow-md"></div>
-            <div className="bg-white w-1/3 h-56 shadow-md"></div>
+          <div className="flex gap-8 mt-8 h-96">
+            <div className="w-2/3">
+              <TransactionsChart />
+            </div>
+            <div className="w-1/3">
+              <CategoriesChart />
+            </div>
           </div>
           <Table/>
         </TransactionsProvider>

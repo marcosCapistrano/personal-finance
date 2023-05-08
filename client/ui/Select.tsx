@@ -11,7 +11,7 @@ interface SelectProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
-  options: Array<{value: string, label: string}>
+  options: Array<{ value: string, label: string }>
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -38,15 +38,18 @@ const Select: React.FC<SelectProps> = ({
         shadow-slate-400 
         shadow-inner 
         w-full
+        bg-white
         transition
         disabled:opacity-70
         disabled:cursor-not-allowed
         ${errors[id] ? 'border-rose-500' : 'border-neutral-300'}
         ${errors[id] ? 'focus:border-rose-500' : 'focus:border-black'}
         `}
-      >{options.map(option => (
-        <option key={option.value} value={option.value}>{option.label}</option>
-      ))}</select>
+      >
+        <option value="" disabled className="hidden"></option>
+        {options.map(option => (
+          <option key={option.value} value={option.value}>{option.label}</option>
+        ))}</select>
       <label
         className={`
           absolute

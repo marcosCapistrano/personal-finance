@@ -13,6 +13,8 @@ interface InputProps {
   required?: boolean;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
+  valueAsNumber?: boolean;
+  valueAsDate?: boolean;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -24,6 +26,8 @@ const Input: React.FC<InputProps> = ({
   required,
   register,
   errors,
+  valueAsDate,
+  valueAsNumber
 }) => {
   return (
     <div className="w-full relative">
@@ -39,13 +43,14 @@ const Input: React.FC<InputProps> = ({
         />
       )}
 
-      <input
-        id={id}
-        disabled={disabled}
-        {...register(id, { required })}
-        placeholder=" "
-        type={type}
-        className={`
+      {valueAsNumber ? (
+        <input
+          id={id}
+          disabled={disabled}
+          placeholder=" "
+          {...register(id, { required, valueAsNumber })}
+          type={type}
+          className={`
         peer
         rounded-sm px-2 pt-4 
         leading-none 
@@ -54,14 +59,66 @@ const Input: React.FC<InputProps> = ({
         shadow-slate-400 
         shadow-inner 
         w-full
+        bg-white
         transition
-        disabled:opacity-70
+        disabled:opacity-30
         disabled:cursor-not-allowed
         ${formatPrice ? "pl-9" : "pl-2"}
         ${errors[id] ? "border-rose-500" : "border-neutral-300"}
         ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
         `}
-      />
+        />
+      ) : valueAsDate ? (
+        <input
+          id={id}
+          disabled={disabled}
+          placeholder=" "
+          {...register(id, { required, valueAsDate })}
+          type={type}
+          className={`
+        peer
+        rounded-sm px-2 pt-4 
+        leading-none 
+        h-10 
+        focus:shadow-md 
+        shadow-slate-400 
+        shadow-inner 
+        w-full
+        bg-white
+        transition
+        disabled:opacity-30
+        disabled:cursor-not-allowed
+        ${formatPrice ? "pl-9" : "pl-2"}
+        ${errors[id] ? "border-rose-500" : "border-neutral-300"}
+        ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
+        `}
+        />
+      ) : (
+        <input
+          id={id}
+          disabled={disabled}
+          placeholder=" "
+          {...register(id, { required })}
+          type={type}
+          className={`
+        peer
+        rounded-sm px-2 pt-4 
+        leading-none 
+        h-10 
+        focus:shadow-md 
+        shadow-slate-400 
+        shadow-inner 
+        w-full
+        bg-white
+        transition
+        disabled:opacity-30
+        disabled:cursor-not-allowed
+        ${formatPrice ? "pl-9" : "pl-2"}
+        ${errors[id] ? "border-rose-500" : "border-neutral-300"}
+        ${errors[id] ? "focus:border-rose-500" : "focus:border-black"}
+        `}
+        />
+      )}
       <label
         className={`
           absolute
